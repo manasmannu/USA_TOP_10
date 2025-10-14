@@ -1,4 +1,3 @@
-// src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -35,8 +34,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loadData();
   }
-
-  /** ---- helpers ---- */
 
   /** Clean up filenames coming from the API (trim, remove inner spaces/newlines). */
   private cleanImageName(x: string): string {
@@ -82,12 +79,10 @@ export class AppComponent implements OnInit {
       .filter(Boolean);
   }
 
-  /** ---- data ---- */
 
   loadData() {
     this.http.get<{ destinations: Destination[] }>('http://127.0.0.1:8000/destinations')
       .subscribe({
-        // src/app/app.component.ts  — inside loadData()
   next: (res) => {
     const items = res?.destinations ?? [];
     this.destinations = items.map((d: any) => ({

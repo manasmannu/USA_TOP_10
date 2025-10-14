@@ -1,4 +1,3 @@
-# backend-python/generate_seed_from_wikipedia.py
 import sqlite3, requests, os, shutil, time
 from pathlib import Path
 
@@ -34,7 +33,7 @@ WIKI_QUERY_API   = "https://en.wikipedia.org/w/api.php"
 
 # *** IMPORTANT: identify your script per Wikipedia API etiquette ***
 HEADERS = {
-    "User-Agent": "usa-top10-seeder/1.0 (manasagarwal143@gmail.com) Python requests"
+    "User-Agent": f"usa-top10-seeder/1.0 ({os.getenv('CONTACT_EMAIL', 'anonymous@example.com')}) Python requests"
 }
 
 # Where to drop downloaded thumbs (adjust if your Angular path is different)

@@ -27,7 +27,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Optional: floating light texture for elegance */
+/* Floating light texture for elegance */
 .page::before {
   content: "";
   position: fixed;

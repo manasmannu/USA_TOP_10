@@ -26,7 +26,6 @@ def refresh_data_on_start():
 
 refresh_data_on_start()
 
-# ---------- ROUTES ----------
 
 @app.get("/")
 def home():
@@ -42,17 +41,6 @@ def get_destinations():
     con.close()
     items = [dict(r) for r in rows]              # <-- list of dicts
     return {"destinations": items}  
-
-# @app.get("/destinations")
-# def get_destinations():
-#     con = sqlite3.connect(DB_PATH)
-#     cur = con.cursor()
-#     rows = cur.execute("SELECT * FROM destinations;").fetchall()
-#     cols = [d[0] for d in cur.description]
-#     con.close()
-#     items = [dict(zip(cols, r)) for r in rows]
-#     return {"destinations": items}
-
 
 @app.get("/admin/refresh")
 def refresh_data():
