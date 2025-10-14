@@ -1,0 +1,72 @@
+<!-- src/app/app.component.html -->
+<div class="page">
+  <header class="hero-bar">
+    <div class="brand">
+      
+      <h1>{{ title }}</h1>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-primary" (click)="refreshData()" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner"></span>
+        <span *ngIf="!isLoading">🔄 Refresh</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- subtle info pill -->
+    <p class="hint">Tip: Click “Read more” on any card to expand details.</p>
+
+    <section class="grid">
+      <article class="card" *ngFor="let d of destinations; let i = index">
+        <div class="media">
+          <img
+            class="hero"
+            [src]="'/assets/images/' + (d.image || '').trim().toLowerCase()"
+            [alt]="d.name"
+            [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+            [attr.decoding]="'async'"
+            [attr.data-name]="d.name"
+            (error)="onImgError($event)"
+          />
+          <div class="overlay">
+            <span class="badge region">{{ d.region }}</span>
+            <span class="badge time">Best: {{ d.best_time }}</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <h3 class="title">
+            {{ d.name }}<span *ngIf="d.state" class="muted">, {{ d.state }}</span>
+          </h3>
+
+          <p class="summary" [class.clamp]="!d.expanded">{{ d.summary }}</p>
+
+          <div class="tags" *ngIf="tagsArray(d).length">
+            <span class="chip" *ngFor="let t of tagsArray(d)">{{ t }}</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <a
+            class="btn btn-ghost"
+            [href]="'https://www.google.com/maps?q=' + d.lat + ',' + d.lon"
+            target="_blank"
+            rel="noopener"
+          >
+            Open in Maps
+          </a>
+
+          <button class="btn btn-outline" (click)="d.expanded = !d.expanded">
+            {{ d.expanded ? 'Show less' : 'Read more' }}
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Built with Angular • FastAPI • SQLite</span>
+  </footer>
+</div>

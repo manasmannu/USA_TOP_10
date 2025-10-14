@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+requests
+sqlite3-bro
+wikipedia
+pydantic
