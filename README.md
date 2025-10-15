@@ -28,18 +28,38 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 ---
 ## Demo
 To start the backend server
-https://github.com/user-attachments/assets/329921d9-4659-4063-b536-c050c57ca8ff
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/329921d9-4659-4063-b536-c050c57ca8ff" 
+       alt="Server" width="65%">
+</p>
+
 
 To start the frontend server
-https://github.com/user-attachments/assets/b7573e12-8ea9-494b-a366-14805a57c21e
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b7573e12-8ea9-494b-a366-14805a57c21e" 
+       alt="Server" width="65%">
+</p>
+
 
 The application will be available on http://localhost:4200/
-https://github.com/user-attachments/assets/9f8d567e-a489-40bf-9ec5-35f7aa377f44
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9f8d567e-a489-40bf-9ec5-35f7aa377f44" 
+       alt="Application" width="65%">
+</p>
 
-https://github.com/user-attachments/assets/4d27146a-8952-4b04-91be-783f8fa8b5fb
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4d27146a-8952-4b04-91be-783f8fa8b5fb" 
+       alt="Application" width="65%">
+</p>
+
 
 Size adjust automatically in the mobile view
-https://github.com/user-attachments/assets/271024e9-bcfb-4377-9c22-dac597bf30da
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/271024e9-bcfb-4377-9c22-dac597bf30da" 
+       alt="Application" width="65%">
+</p>
+
 
 
 ## What This App Does
