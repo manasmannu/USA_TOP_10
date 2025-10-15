@@ -1,5 +1,12 @@
 # UsaTop10 — Angular Frontend + Python Seeder (SQLite)
 
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Web%20Framework-brightgreen)
+![Angular](https://img.shields.io/badge/Frontend-Angular-red)
+![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey)
+![Wikipedia](https://img.shields.io/badge/API-Wikipedia-blueviolet)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 A simple demo that showcases **Top 10 U.S. destinations** (fixed list) with short descriptions, best months to visit, tags, coordinates, and hero images.  
 The data is **fetched from Wikipedia** by a Python script and stored in a local **SQLite** database (`db.sqlite3`). Images are saved into the Angular app’s assets so the UI can display them.
 
@@ -17,10 +24,6 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 - [Detailed Setup](#detailed-setup)
   - [1) Backend (Python) – Virtual Env & Seeder](#1-backend-python--virtual-env--seeder)
   - [2) Frontend (Angular) – Install & Run](#2-frontend-angular--install--run)
-- [Wiring the “Refresh” Button (Optional)](#wiring-the-refresh-button-optional)
-  - [Express/Node example](#expressnode-example)
-  - [Flask (Python) example](#flask-python-example)
-- [Inspecting the SQLite DB](#inspecting-the-sqlite-db)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
 - [Original Angular CLI Notes](#original-angular-cli-notes)
@@ -59,7 +62,7 @@ Size adjust automatically in the mobile view
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/271024e9-bcfb-4377-9c22-dac597bf30da" 
-       alt="Application" width="65%">
+       alt="Application" width="50%">
 </p>
 
 ## What This App Does
