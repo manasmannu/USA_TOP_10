@@ -3,11 +3,12 @@
 A simple demo that showcases **Top 10 U.S. destinations** (fixed list) with short descriptions, best months to visit, tags, coordinates, and hero images.  
 The data is **fetched from Wikipedia** by a Python script and stored in a local **SQLite** database (`db.sqlite3`). Images are saved into the Angular app’s assets so the UI can display them.
 
-> **Note:** The “Top 10” list is *hardcoded* in the seeder. You can change it by editing `DESTINATIONS` and `DEFAULTS` in `backend-python/generate_seed_from_wikipedia.py`.
+> **Note:** The “Top 10” list is _hardcoded_ in the seeder. You can change it by editing `DESTINATIONS` and `DEFAULTS` in `backend-python/generate_seed_from_wikipedia.py`.
 
 ---
 
 ## Table of Contents
+
 - [Demo](#Demo)
 - [What This App Does](#what-this-app-does)
 - [Architecture](#architecture)
@@ -24,43 +25,42 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 - [FAQ](#faq)
 - [Original Angular CLI Notes](#original-angular-cli-notes)
 
-
 ---
+
 ## Demo
+
 To start the backend server
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/329921d9-4659-4063-b536-c050c57ca8ff" 
        alt="Server" width="65%">
 </p>
 
-
 To start the frontend server
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b7573e12-8ea9-494b-a366-14805a57c21e" 
        alt="Server" width="65%">
 </p>
 
-
 The application will be available on http://localhost:4200/
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9f8d567e-a489-40bf-9ec5-35f7aa377f44" 
        alt="Application" width="65%">
 </p>
-
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4d27146a-8952-4b04-91be-783f8fa8b5fb" 
        alt="Application" width="65%">
 </p>
 
-
 Size adjust automatically in the mobile view
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/271024e9-bcfb-4377-9c22-dac597bf30da" 
        alt="Application" width="65%">
 </p>
-
-
 
 ## What This App Does
 
@@ -135,12 +135,12 @@ export CONTACT_EMAIL="your_email@example.com"
 # Windows PowerShell:
 # $env:CONTACT_EMAIL="your_email@example.com"
 
-python generate_seed_from_wikipedia.py
+uvicorn app:app --reload --port 8000
 
 # 2) Frontend: install & run
 cd ../frontend-angular/usa-top10
 npm install
-ng serve
+ng serve --port 4200
 # open http://localhost:4200
 ```
 
@@ -153,6 +153,7 @@ ng serve
 1. **Create and activate a virtual environment**
 
    **macOS/Linux**
+
    ```bash
    cd backend-python
    python -m venv .venv
@@ -160,6 +161,7 @@ ng serve
    ```
 
    **Windows (PowerShell)**
+
    ```powershell
    cd backend-python
    python -m venv .venv
@@ -167,9 +169,11 @@ ng serve
    ```
 
 2. **Install dependencies**
+
    ```bash
    pip install requests
    ```
+
    `sqlite3` ships with Python; no extra install required.
 
 3. **Set a contact email (environment variable)**  
@@ -177,50 +181,35 @@ ng serve
    **Never hardcode personal emails in code**—use an env var instead.
 
    **macOS/Linux**
+
    ```bash
    export CONTACT_EMAIL="your_email@example.com"
    ```
 
    **Windows (PowerShell)**
+
    ```powershell
    $env:CONTACT_EMAIL="your_email@example.com"
    ```
 
-4. **Run the seeder**
-   ```bash
-   python generate_seed_from_wikipedia.py
-   ```
-
-   This will:
-   - Query Wikipedia for each destination.
-   - Save hero images into:
-     `../frontend-angular/usa-top10/src/assets/images/`
-   - Generate `seed.sql`.
-   - Create/overwrite `db.sqlite3` with a `destinations` table and data.
-
-5. **(Optional) Verify data quickly**
-   ```bash
-   sqlite3 db.sqlite3
-   .tables
-   SELECT id, name, state, region, hero_image FROM destinations LIMIT 10;
-   .exit
-   ```
-
-> To change the list of places, edit `DESTINATIONS` and `DEFAULTS` in the seeder and re-run it.
+4. **Start the backend server**
+   uvicorn app:app --reload --port 8000
 
 ---
 
 ### 2) Frontend (Angular) – Install & Run
 
 1. **Install dependencies**
+
    ```bash
    cd ../frontend-angular/usa-top10
    npm install
    ```
 
 2. **Run the dev server**
+
    ```bash
-   ng serve
+   ng serve --port 4200
    ```
 
 3. Open the app at: http://localhost:4200
@@ -233,112 +222,16 @@ ng serve
 
 ---
 
-## Wiring the “Refresh” Button (Optional)
-
-If your UI has a **Refresh** button, wire it to a backend endpoint that triggers the seeder. Two minimal examples:
-
-### Express/Node example
-
-```js
-// server.js
-import express from "express";
-import { spawn } from "child_process";
-const app = express();
-
-app.post("/api/refresh-seed", (req, res) => {
-  // run the Python seeder
-  const child = spawn("python", ["backend-python/generate_seed_from_wikipedia.py"], {
-    env: { ...process.env, CONTACT_EMAIL: process.env.CONTACT_EMAIL || "anonymous@example.com" },
-  });
-
-  child.on("close", (code) => {
-    if (code === 0) return res.status(200).send({ ok: true });
-    res.status(500).send({ ok: false, code });
-  });
-});
-
-app.listen(3000, () => console.log("Server on :3000"));
-```
-
-Angular service/button (example):
-
-```ts
-// refresh.service.ts
-refresh() {
-  return this.http.post<void>('/api/refresh-seed', {});
-}
-```
-
-```html
-<!-- refresh.component.html -->
-<button (click)="onRefresh()" [disabled]="isLoading">
-  <span *ngIf="!isLoading">🔄 Refresh</span>
-  <span *ngIf="isLoading" aria-live="polite">Refreshing…</span>
-</button>
-```
-
-```ts
-// refresh.component.ts
-isLoading = false;
-onRefresh() {
-  this.isLoading = true;
-  this.refreshService.refresh().subscribe({
-    next: () => (this.isLoading = false),
-    error: () => (this.isLoading = false),
-  });
-}
-```
-
-### Flask (Python) example
-
-```python
-# app.py
-import os, subprocess
-from flask import Flask, jsonify
-
-app = Flask(__name__)
-
-@app.post("/api/refresh-seed")
-def refresh_seed():
-    env = os.environ.copy()
-    env.setdefault("CONTACT_EMAIL", "anonymous@example.com")
-    code = subprocess.call(
-        ["python", "backend-python/generate_seed_from_wikipedia.py"],
-        env=env
-    )
-    if code == 0:
-        return jsonify({"ok": True})
-    return jsonify({"ok": False, "code": code}), 500
-
-if __name__ == "__main__":
-    app.run(port=3000, debug=True)
-```
-
----
-
-## Inspecting the SQLite DB
-
-**Command line**:
-```bash
-sqlite3 db.sqlite3
-.tables
-.schema destinations
-SELECT * FROM destinations LIMIT 5;
-.exit
-```
-
-**GUI**: Open `db.sqlite3` in **DB Browser for SQLite** to browse/edit visually.
-
----
-
 ## Troubleshooting
 
 - **Images not showing in UI**
+
   - Ensure the seeder wrote files to  
     `frontend-angular/usa-top10/src/assets/images/`
   - Make sure Angular uses correct relative asset paths.
 
 - **Wikipedia rate limit / 429**
+
   - Seeder retries automatically on 429/5xx.
   - Ensure `CONTACT_EMAIL` is set.
   - Avoid hammering refresh repeatedly.
@@ -347,18 +240,12 @@ SELECT * FROM destinations LIMIT 5;
   - Close other processes using `db.sqlite3`.
   - Delete `db.sqlite3` and re-run the seeder if necessary.
 
-- **Emoji renders as empty box**
-  - Your font may not support it. Consider Material/FontAwesome icons.
-
 ---
 
 ## FAQ
 
 **Q: Does the app auto-discover “Top 10” cities?**  
 A: No. The list is hardcoded. Edit `DESTINATIONS` to change it.
-
-**Q: Is my email exposed publicly?**  
-A: No. It’s only sent in the HTTP header to Wikipedia. Use the `CONTACT_EMAIL` env var rather than hardcoding into the script.
 
 **Q: Can I point this to a different frontend path for images?**  
 A: Yes. Update `IMG_DIR` in `generate_seed_from_wikipedia.py` to your desired folder.
@@ -370,28 +257,34 @@ A: Yes. Update `IMG_DIR` in `generate_seed_from_wikipedia.py` to your desired fo
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
 
 ### Development server
+
 ```bash
 ng serve
 ```
+
 Open `http://localhost:4200/` in your browser.
 
 ### Code scaffolding
+
 ```bash
 ng generate component component-name
 ng generate --help
 ```
 
 ### Building
+
 ```bash
 ng build
 ```
 
 ### Unit tests
+
 ```bash
 ng test
 ```
 
 ### End-to-end tests
+
 ```bash
 ng e2e
 ```
