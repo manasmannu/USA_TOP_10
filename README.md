@@ -8,6 +8,7 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 ---
 
 ## Table of Contents
+- [Demo](#Demo)
 - [What This App Does](#what-this-app-does)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
@@ -23,7 +24,23 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 - [FAQ](#faq)
 - [Original Angular CLI Notes](#original-angular-cli-notes)
 
+
 ---
+## Demo
+To start the backend server
+https://github.com/user-attachments/assets/329921d9-4659-4063-b536-c050c57ca8ff
+
+To start the frontend server
+https://github.com/user-attachments/assets/b7573e12-8ea9-494b-a366-14805a57c21e
+
+The application will be available on http://localhost:4200/
+https://github.com/user-attachments/assets/9f8d567e-a489-40bf-9ec5-35f7aa377f44
+
+https://github.com/user-attachments/assets/4d27146a-8952-4b04-91be-783f8fa8b5fb
+
+Size adjust automatically in the mobile view
+https://github.com/user-attachments/assets/271024e9-bcfb-4377-9c22-dac597bf30da
+
 
 ## What This App Does
 
@@ -44,16 +61,18 @@ The data is **fetched from Wikipedia** by a Python script and stored in a local 
 ## Architecture
 
 ```
+backend-python/
+  generate_seed_from_wikipedia.py   # seeder: Wikipedia -> SQLite + images
+db.sqlite3             # created/overwritten by the seeder
+seed.sql               # generated SQL (DROP/CREATE + INSERTs)
+
 frontend-angular/
   usa-top10/
     src/
       assets/
         images/          # hero images downloaded by the seeder
       app/               # Angular components/services
-backend-python/
-  generate_seed_from_wikipedia.py   # seeder: Wikipedia -> SQLite + images
-db.sqlite3             # created/overwritten by the seeder
-seed.sql               # generated SQL (DROP/CREATE + INSERTs)
+
 ```
 
 ---
